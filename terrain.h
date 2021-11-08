@@ -1,5 +1,7 @@
 #pragma once
 
+#include "precomp.h"
+
 namespace Tmpl8
 {
     enum TileType

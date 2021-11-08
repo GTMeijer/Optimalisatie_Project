@@ -1,5 +1,5 @@
-#include "terrain.h"
 #include "precomp.h"
+#include "terrain.h"
 
 namespace fs = std::filesystem;
 namespace Tmpl8
@@ -154,7 +154,7 @@ namespace Tmpl8
             TerrainTile* current_tile = current_route.back();
 
             //Check all exits, if target then done, else if unvisited push a new partial route
-            for each (TerrainTile * exit in current_tile->exits)
+            for (TerrainTile * exit : current_tile->exits)
             {
                 if (exit->position_x == target_x && exit->position_y == target_y)
                 {
@@ -173,7 +173,7 @@ namespace Tmpl8
         }
 
         //Reset tiles
-        for each (TerrainTile * tile in visited)
+        for (TerrainTile * tile : visited)
         {
             tile->visited = false;
         }
