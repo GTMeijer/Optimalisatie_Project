@@ -44,6 +44,7 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <limits>
 #include <memory>
 #include <random>
