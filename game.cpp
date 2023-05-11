@@ -212,29 +212,33 @@ void Game::update(float deltaTime)
     }
 
     //Calculate convex hull for 'rocket barrier'
-    for (Tank& tank : tanks)
+    while (true)
     {
-        if (tank.active)
-        {
-            forcefield_hull.push_back(point_on_hull);
-            vec2 endpoint = tanks.at(first_active).position;
+        //Add last found point
+        forcefield_hull.push_back(point_on_hull);
 
-            for (Tank& tank : tanks)
+        //Loop through all points replacing the endpoint with the current iteration every time 
+        //it lies left of the current segment formed by point_on_hull and the current endpoint.
+        //By the end we have a segment with no points on the left and thus a point on the convex hull.
+        vec2 endpoint = tanks.at(first_active).position;
+        for (Tank& tank : tanks)
+        {
+            if (tank.active)
             {
-                if (tank.active)
+                if ((endpoint == point_on_hull) || left_of_line(point_on_hull, endpoint, tank.position))
                 {
-                    if ((endpoint == point_on_hull) || left_of_line(point_on_hull, endpoint, tank.position))
-                    {
-                        endpoint = tank.position;
-                    }
+                    endpoint = tank.position;
                 }
             }
-            point_on_hull = endpoint;
+        }
 
-            if (endpoint == forcefield_hull.at(0))
-            {
-                break;
-            }
+        //Set the starting point of the next segment to the found endpoint.
+        point_on_hull = endpoint;
+
+        //If we went all the way around we are done.
+        if (endpoint == forcefield_hull.at(0))
+        {
+            break;
         }
     }
 
